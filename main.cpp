@@ -3,25 +3,36 @@
 #include <cctype>
 #include "Card.h"
 #include "Deck.h"
+#include <ctime>
+
+
 using namespace std;
 
 int main() {
     cout << "Welcome to Blind Man's Bluff" << endl << endl;
     bool play, invalid, guessedHigher;
     string response;
-    int compValue, userValue, nWin = 0, nLoss = 0, nTie = 0;
+    int nWin = 0, nLoss = 0, nTie = 0;
     srand(time(NULL));
+    Card PlayerCard;
+    Card ComputerCard; //cards being used by computer and player
+    Deck Game; //deck for the game
+    Game.NewDeck();
+    Game.Shuffle();
+    int RoundsLeft = 27;
 
     play = true;
-    while(play) {
-        // assign values to computer and user
-        compValue = rand() % 52;
-        userValue = rand() % 52;
+    while(play && RoundsLeft > 1) {
 
-        // get user's bet
-        cout << "Computer's value is " << compValue << endl;
+        PlayerCard = Game.RemoveCard();
+        ComputerCard = Game.RemoveCard(); //deal cards to computer and user, removing dealt cards from the deck
+
+
+        cout << "Computer's value is " << ComputerCard.PrintCard() << endl; //show Computer's card to the player
+
+
         invalid = true;
-        while(invalid) {
+        while(invalid) { //get user input
             cout << "Do you think your number is higher or lower? (H/L)" << endl;
             cin >> response;
             if (toupper(response.at(0)) == 'H') {
@@ -40,17 +51,18 @@ int main() {
         }
 
         // determine outcome
-        if((compValue < userValue && guessedHigher) || (compValue > userValue && !guessedHigher)) {
+        if((ComputerCard < PlayerCard && guessedHigher) || (ComputerCard > PlayerCard && !guessedHigher)) {
             cout << "Great! You're right:" << endl;
             nWin++;
-        } else if((compValue > userValue && guessedHigher) || (compValue < userValue && !guessedHigher)) {
+        } else if((ComputerCard > PlayerCard && guessedHigher) || (ComputerCard < PlayerCard && !guessedHigher)) {
             cout << "Sorry, you're wrong:" << endl;
             nLoss++;
         } else {
             cout << "It's a tie:" << endl;
             nTie++;
         }
-        cout << "\tyour value is " << userValue << endl;
+        cout << "\tyour value is " ;
+        cout << PlayerCard.PrintCard() << endl;
 
         // ask user to play again
         invalid = true;
@@ -71,6 +83,10 @@ int main() {
                 invalid = true;
             }
         }
+        RoundsLeft --;
+    }
+    if(RoundsLeft == 0){
+        cout << "Out of Cards!" << endl;
     }
 
     // output stats

@@ -9,7 +9,16 @@ const string ranks[] = {"Ace","2","3","4","5","6","7","8","9","10","Jack","King"
 const string suits[] = {"Clubs","Diamonds","Hearts","Spades"};
 
 class Card {
-
+public:
+    Card();
+    Card(int Rank, int Suit);
+    bool operator> (Card C);
+    bool operator< (Card C);
+    string PrintCard();
+private:
+    int NumRank;
+    int NumSuit;
+    int CardName;
 };
 
 
