@@ -22,7 +22,7 @@ int main() {
     int RoundsLeft = 27;
 
     play = true;
-    while(play && RoundsLeft > 1) {
+    while(play && RoundsLeft > 0) {
 
         PlayerCard = Game.RemoveCard();
         ComputerCard = Game.RemoveCard(); //deal cards to computer and user, removing dealt cards from the deck
